@@ -17,64 +17,113 @@
     }
 
     body {
-        background: radial-gradient(circle at top, #1b1b25, #07070b);
+        background: radial-gradient(ellipse at top, #1f1f2e 0%, #0a0a12 50%, #050508 100%);
         color: #f5f5f5;
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 20px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* ستاره‌های پس‌زمینه */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            radial-gradient(1px 1px at 20% 30%, rgba(255,215,0,0.3), transparent),
+            radial-gradient(1px 1px at 60% 70%, rgba(255,215,0,0.2), transparent),
+            radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,0.2), transparent),
+            radial-gradient(1px 1px at 40% 80%, rgba(255,215,0,0.15), transparent),
+            radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.15), transparent);
+        background-size: 200px 200px;
+        pointer-events: none;
+        z-index: 0;
+        animation: twinkle 8s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
     }
 
     .container {
         width: 92%;
         max-width: 420px;
         text-align: center;
+        position: relative;
+        z-index: 1;
     }
 
     .card {
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 22px;
-        padding: 22px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-        backdrop-filter: blur(10px);
+        background: linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+        border: 1px solid rgba(255,215,0,0.15);
+        border-radius: 26px;
+        padding: 26px 22px;
+        box-shadow: 
+            0 10px 40px rgba(0,0,0,0.6),
+            0 0 60px rgba(255,215,0,0.05),
+            inset 0 1px 0 rgba(255,255,255,0.08);
+        backdrop-filter: blur(12px);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, gold, transparent);
+        opacity: 0.6;
     }
 
     .tomb-title {
-        font-size: 18px;
+        font-size: 20px;
         color: gold;
-        margin-bottom: 18px;
-        letter-spacing: 2px;
+        margin-bottom: 22px;
+        letter-spacing: 3px;
         position: relative;
         display: inline-block;
-        padding: 0 20px;
+        padding: 0 40px;
+        text-shadow: 0 0 20px rgba(255,215,0,0.4);
+        font-weight: 600;
     }
 
     .tomb-title::before,
     .tomb-title::after {
-        content: '';
+        content: '✦';
         position: absolute;
         top: 50%;
-        width: 30px;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, gold, transparent);
+        transform: translateY(-50%);
+        font-size: 12px;
+        color: gold;
+        opacity: 0.7;
     }
 
     .tomb-title::before {
-        right: -30px;
+        right: 10px;
     }
 
     .tomb-title::after {
-        left: -30px;
+        left: 10px;
     }
 
     .photos-wrapper {
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        gap: 16px;
-        margin-bottom: 14px;
+        gap: 18px;
+        margin-bottom: 18px;
     }
 
     .photo-item {
@@ -82,7 +131,28 @@
         flex-direction: column;
         align-items: center;
         flex: 1;
-        max-width: 150px;
+        max-width: 155px;
+        transition: transform 0.3s ease;
+    }
+
+    .photo-item:hover {
+        transform: translateY(-3px);
+    }
+
+    .photo-frame {
+        position: relative;
+        padding: 4px;
+        background: linear-gradient(135deg, gold, #b8860b, gold);
+        border-radius: 50%;
+        box-shadow: 
+            0 0 25px rgba(255,215,0,0.3),
+            inset 0 0 10px rgba(255,215,0,0.2);
+        animation: glow 3s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+        0%, 100% { box-shadow: 0 0 25px rgba(255,215,0,0.3), inset 0 0 10px rgba(255,215,0,0.2); }
+        50% { box-shadow: 0 0 35px rgba(255,215,0,0.5), inset 0 0 15px rgba(255,215,0,0.3); }
     }
 
     .photo {
@@ -90,16 +160,17 @@
         height: 110px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid gold;
-        box-shadow: 0 0 20px rgba(255,215,0,0.25);
+        border: 2px solid rgba(0,0,0,0.3);
+        display: block;
     }
 
     .photo-name {
-        margin-top: 10px;
+        margin-top: 12px;
         font-size: 13px;
         color: gold;
         font-weight: bold;
-        line-height: 1.5;
+        line-height: 1.6;
+        text-shadow: 0 0 10px rgba(255,215,0,0.3);
     }
 
     .photo-date {
@@ -107,50 +178,88 @@
         font-size: 11px;
         color: #bbb;
         line-height: 1.5;
+        font-family: monospace;
     }
 
     .relation-badge {
         display: inline-block;
-        margin-top: 6px;
+        margin-top: 8px;
         font-size: 10px;
         color: #ffd98a;
-        background: rgba(255,215,0,0.08);
-        padding: 2px 8px;
-        border-radius: 10px;
-        border: 1px solid rgba(255,215,0,0.2);
+        background: rgba(255,215,0,0.1);
+        padding: 3px 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,215,0,0.25);
+        backdrop-filter: blur(5px);
+    }
+
+    /* Divider زیبا */
+    .divider {
+        margin: 20px auto;
+        width: 80%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent);
+        position: relative;
+    }
+
+    .divider::after {
+        content: '❖';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: gold;
+        font-size: 12px;
+        background: #0f0f18;
+        padding: 0 8px;
     }
 
     .desc {
-        margin-top: 18px;
         font-size: 14px;
-        line-height: 1.9;
+        line-height: 2;
         color: #e6e6e6;
+        padding: 0 8px;
     }
 
     .poem {
-        margin-top: 16px;
-        padding: 10px;
-        border-radius: 14px;
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,215,0,0.15);
+        margin-top: 18px;
+        padding: 12px;
+        border-radius: 16px;
+        background: linear-gradient(145deg, rgba(255,215,0,0.05), rgba(255,215,0,0.02));
+        border: 1px solid rgba(255,215,0,0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .poem::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 70%);
+        pointer-events: none;
     }
 
     .poem img {
         width: 100%;
         height: auto;
         display: block;
-        border-radius: 10px;
+        border-radius: 12px;
+        position: relative;
+        z-index: 1;
     }
 
     .fatiha-btn {
-        margin-top: 18px;
+        margin-top: 20px;
         width: 100%;
-        padding: 18px 20px;
-        background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.1));
+        padding: 16px 20px;
+        background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.08));
         border: 2px solid rgba(255,215,0,0.4);
         border-radius: 16px;
         color: gold;
-        font-size: 17px;
+        font-size: 16px;
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
@@ -158,31 +267,48 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-        box-shadow: 0 4px 15px rgba(255,215,0,0.15);
+        box-shadow: 
+            0 4px 20px rgba(255,215,0,0.15),
+            inset 0 1px 0 rgba(255,255,255,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .fatiha-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .fatiha-btn:hover::before {
+        left: 100%;
     }
 
     .fatiha-btn:hover {
         background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,215,0,0.15));
         transform: translateY(-2px);
-        box-shadow: 0 6px 25px rgba(255,215,0,0.25);
+        box-shadow: 
+            0 6px 25px rgba(255,215,0,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.15);
     }
 
     .fatiha-btn:active {
         transform: translateY(0);
     }
 
-    .fatiha-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
     .fatiha-btn svg {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
         fill: gold;
+        filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
     }
 
-    /* Gallery Modal */
+    /* Gallery Modal - بهبود یافته */
     .gallery-overlay {
         display: none;
         position: fixed;
@@ -190,16 +316,16 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,0.95);
+        background: rgba(0,0,0,0.97);
         z-index: 1000;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
     }
 
     .gallery-overlay.active {
         display: flex;
         align-items: center;
         justify-content: center;
-        animation: fadeIn 0.3s ease;
+        animation: fadeIn 0.4s ease;
     }
 
     @keyframes fadeIn {
@@ -208,45 +334,49 @@
     }
 
     .gallery-container {
-        width: 90%;
+        width: 92%;
         max-width: 500px;
         position: relative;
     }
 
     .gallery-close {
         position: absolute;
-        top: -50px;
+        top: -55px;
         left: 50%;
         transform: translateX(-50%);
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
-        background: rgba(255,255,255,0.1);
-        border: 1px solid rgba(255,255,255,0.2);
-        color: white;
-        font-size: 24px;
+        background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.1));
+        border: 1px solid rgba(255,215,0,0.3);
+        color: gold;
+        font-size: 22px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
     }
 
     .gallery-close:hover {
-        background: rgba(255,255,255,0.2);
-        transform: translateX(-50%) scale(1.1);
+        background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,215,0,0.2));
+        transform: translateX(-50%) scale(1.1) rotate(90deg);
     }
 
     .gallery-slider {
         width: 100%;
         overflow: hidden;
-        border-radius: 16px;
+        border-radius: 18px;
         position: relative;
+        background: rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,215,0,0.2);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     }
 
     .gallery-track {
         display: flex;
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .gallery-slide {
@@ -254,6 +384,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
+        position: relative;
+        min-height: 400px;
     }
 
     .gallery-slide img {
@@ -261,36 +394,84 @@
         height: auto;
         max-height: 70vh;
         object-fit: contain;
-        border-radius: 16px;
+        display: block;
+    }
+
+    /* دکمه‌های ناوبری اسلایدر */
+    .gallery-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255,215,0,0.25), rgba(255,215,0,0.1));
+        border: 1px solid rgba(255,215,0,0.4);
+        color: gold;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        z-index: 10;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .gallery-nav:hover {
+        background: linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,215,0,0.2));
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 6px 20px rgba(255,215,0,0.3);
+    }
+
+    .gallery-nav.prev {
+        right: 12px;
+    }
+
+    .gallery-nav.next {
+        left: 12px;
     }
 
     .gallery-indicators {
         display: flex;
         justify-content: center;
-        gap: 8px;
-        margin-top: 16px;
+        gap: 10px;
+        margin-top: 18px;
     }
 
     .indicator {
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
-        background: rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,215,0,0.3);
         cursor: pointer;
         transition: all 0.3s ease;
     }
 
     .indicator.active {
         background: gold;
-        width: 24px;
-        border-radius: 4px;
+        width: 28px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(255,215,0,0.5);
     }
 
     .gallery-hint {
         text-align: center;
-        margin-top: 12px;
+        margin-top: 14px;
         font-size: 12px;
         color: #aaa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .gallery-hint svg {
+        width: 14px;
+        height: 14px;
+        fill: #aaa;
     }
 
     /* Error Toast */
@@ -299,15 +480,16 @@
         top: 20px;
         left: 50%;
         transform: translateX(-50%) translateY(-100px);
-        background: rgba(255,80,80,0.95);
+        background: linear-gradient(135deg, rgba(255,80,80,0.95), rgba(200,50,50,0.95));
         color: white;
-        padding: 12px 20px;
-        border-radius: 12px;
+        padding: 14px 22px;
+        border-radius: 14px;
         font-size: 13px;
-        box-shadow: 0 4px 20px rgba(255,80,80,0.3);
+        box-shadow: 0 4px 25px rgba(255,80,80,0.4);
         z-index: 2000;
-        transition: transform 0.3s ease;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.1);
     }
 
     .error-toast.show {
@@ -316,14 +498,26 @@
 
     /* Audio Player Styles */
     .audio-player {
-        margin-top: 20px;
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 16px;
-        padding: 16px;
+        margin-top: 22px;
+        background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+        border: 1px solid rgba(255,215,0,0.15);
+        border-radius: 18px;
+        padding: 18px;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .audio-player::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent);
     }
 
     .player-header {
@@ -333,24 +527,28 @@
     }
 
     .play-btn {
-        width: 48px;
-        height: 48px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         border: none;
-        background: linear-gradient(135deg, #ffcc55, gold);
+        background: linear-gradient(135deg, #ffcc55, #b8860b);
         color: #111;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.2s ease;
-        box-shadow: 0 4px 15px rgba(255,215,0,0.3);
+        box-shadow: 
+            0 4px 15px rgba(255,215,0,0.4),
+            inset 0 1px 0 rgba(255,255,255,0.3);
         flex-shrink: 0;
     }
 
     .play-btn:hover {
         transform: scale(1.05);
-        box-shadow: 0 6px 20px rgba(255,215,0,0.4);
+        box-shadow: 
+            0 6px 20px rgba(255,215,0,0.5),
+            inset 0 1px 0 rgba(255,255,255,0.3);
     }
 
     .play-btn:active {
@@ -358,8 +556,8 @@
     }
 
     .play-btn svg {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
         fill: #111;
     }
 
@@ -373,6 +571,7 @@
         font-weight: bold;
         color: gold;
         margin-bottom: 4px;
+        text-shadow: 0 0 10px rgba(255,215,0,0.3);
     }
 
     .player-subtitle {
@@ -396,26 +595,28 @@
 
     .progress-bar {
         flex: 1;
-        height: 4px;
+        height: 5px;
         background: rgba(255,255,255,0.1);
-        border-radius: 2px;
+        border-radius: 3px;
         cursor: pointer;
         position: relative;
         overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.05);
     }
 
     .progress-fill {
         height: 100%;
         background: linear-gradient(90deg, gold, #ffcc55);
-        border-radius: 2px;
+        border-radius: 3px;
         width: 0%;
         transition: width 0.1s linear;
+        box-shadow: 0 0 8px rgba(255,215,0,0.5);
     }
 
     .volume-control {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
         padding: 0 4px;
     }
 
@@ -433,24 +634,34 @@
 
     .volume-slider {
         flex: 1;
-        height: 4px;
+        height: 5px;
         background: rgba(255,255,255,0.1);
-        border-radius: 2px;
+        border-radius: 3px;
         cursor: pointer;
         position: relative;
+        border: 1px solid rgba(255,255,255,0.05);
     }
 
     .volume-fill {
         height: 100%;
-        background: gold;
-        border-radius: 2px;
+        background: linear-gradient(90deg, gold, #ffcc55);
+        border-radius: 3px;
         width: 100%;
     }
 
     .hint {
-        margin-top: 10px;
-        font-size: 12px;
-        color: #aaa;
+        margin-top: 12px;
+        font-size: 11px;
+        color: #888;
+        font-style: italic;
+    }
+
+    /* Footer کوچک */
+    .footer {
+        margin-top: 20px;
+        font-size: 10px;
+        color: #666;
+        letter-spacing: 1px;
     }
 </style>
 </head>
@@ -473,22 +684,28 @@
     <div class="card">
 
         <div class="tomb-title">آرامگاه</div>
-        <!-- دو عکس کنار هم -->
+
         <div class="photos-wrapper">
             <div class="photo-item">
-                <img class="photo" src="photo.jpg" alt="کربلایی ابراهیم">
+                <div class="photo-frame">
+                    <img class="photo" src="photo.jpg" alt="کربلایی ابراهیم">
+                </div>
                 <div class="photo-name">کربلایی ابراهیم<br>دهقان‌نژاد</div>
                 <div class="photo-date">۱۳۲۵/۵/۵ — ۱۴۰۵/۳/۲۵</div>
                 <div class="relation-badge">وفات: شب اول محرم ۱۴۴۸ ه.ق</div>
             </div>
 
             <div class="photo-item">
-                <img class="photo" src="photo2.jpg" alt="سیده مدینه آل رسول">
+                <div class="photo-frame">
+                    <img class="photo" src="photo2.jpg" alt="سیده مدینه آل رسول">
+                </div>
                 <div class="photo-name">سیده مدینه<br>آل رسول</div>
                 <div class="photo-date">۱۲۹۴ — ۱۳۷۹/۶/۲۸</div>
                 <div class="relation-badge">وفات: 19 جمادی الثانی 1421</div>
             </div>
         </div>
+
+        <div class="divider"></div>
 
         <div class="desc">
             یادشان همیشه زنده است...  
@@ -541,6 +758,8 @@
             (برای پخش خودکار، یک بار روی صفحه لمس کنید)
         </div>
 
+        <div class="footer">✦ روحشان شاد ✦</div>
+
     </div>
 </div>
 
@@ -549,11 +768,13 @@
     <div class="gallery-container">
         <button class="gallery-close" id="galleryClose">×</button>
         <div class="gallery-slider" dir="ltr">
+            <button class="gallery-nav prev" id="prevBtn">❯</button>
+            <button class="gallery-nav next" id="nextBtn">❮</button>
             <div class="gallery-track" id="galleryTrack">
-                <div class="gallery-slide">
+                <div class="gallery-slide" data-slide="0">
                     <img src="hamd.jpg" alt="حمد">
                 </div>
-                <div class="gallery-slide">
+                <div class="gallery-slide" data-slide="1">
                     <img src="tohid.jpg" alt="توحید">
                 </div>
             </div>
@@ -562,7 +783,11 @@
             <div class="indicator active" data-index="0"></div>
             <div class="indicator" data-index="1"></div>
         </div>
-        <div class="gallery-hint">برای تغییر، به چپ یا راست بکشید</div>
+        <div class="gallery-hint">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            برای تغییر عکس، روی دکمه‌ها یا نشانگرها کلیک کنید
+            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+        </div>
     </div>
 </div>
 
@@ -596,13 +821,14 @@
     const galleryTrack = document.getElementById("galleryTrack");
     const indicators = document.querySelectorAll('.indicator');
     const errorToast = document.getElementById("errorToast");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const slides = document.querySelectorAll('.gallery-slide');
     
     let isPlaying = false;
     let isMuted = false;
     let previousVolume = 1;
     let currentSlide = 0;
-    let touchStartX = 0;
-    let touchEndX = 0;
     const totalSlides = 2;
 
     function formatTime(seconds) {
@@ -713,7 +939,6 @@
     }
 
     function updateSlide() {
-        // gallery-track دارای dir="ltr" است، پس translateX منفی برای حرکت به راست استفاده می‌شود
         galleryTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
         indicators.forEach((ind, idx) => {
             ind.classList.toggle('active', idx === currentSlide);
@@ -730,6 +955,7 @@
         updateSlide();
     }
 
+    // تغییر خودکار اسلاید با پایان صوت
     hamdAudio.addEventListener('ended', () => {
         tohidAudio.currentTime = 0;
         tohidAudio.play().catch(err => console.log("Tohid play failed:", err));
@@ -742,30 +968,24 @@
         }, 1000);
     });
 
-    galleryTrack.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
+    // Event Listeners برای دکمه‌های ناوبری
+    prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        prevSlide();
     });
 
-    galleryTrack.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
+    nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        nextSlide();
     });
 
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-        
-        if (Math.abs(diff) > swipeThreshold) {
-            // gallery-track دارای dir="ltr" است
-            // swipe به چپ (diff مثبت) = next
-            // swipe به راست (diff منفی) = prev
-            if (diff > 0) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
-        }
-    }
+    // کلیک روی خود عکس‌ها برای رفتن به عکس بعدی
+    slides.forEach(slide => {
+        slide.addEventListener('click', (e) => {
+            e.stopPropagation();
+            nextSlide();
+        });
+    });
 
     playBtn.addEventListener('click', togglePlay);
     progressBar.addEventListener('click', seek);
@@ -787,6 +1007,7 @@
         }
     });
 
+    // Auto-play on first interaction
     function autoPlayOnInteraction() {
         audio.play().then(() => {
             isPlaying = true;
